@@ -1,6 +1,8 @@
 const db = require("../../data/db")
 
 const addUser = async (newUser) => {
+    console.log(newUser);
+    console.log('adding new user to the User tbl');
     return (
         db("User")
             // Pass in the whole object into the insert statement.
