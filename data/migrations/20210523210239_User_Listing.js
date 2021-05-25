@@ -1,6 +1,7 @@
 exports.up = (knex) =>
     knex.schema.createTable("User_Listing", (tbl) => {
         tbl.increments("id").primary()
+        tbl.integer("posting_seller_id").notNullable().references("id").inTable("User")
         tbl.string("posting_title", 128).notNullable()
         tbl.string("posting_price", 128).notNullable()
         tbl.string("posting_address", 128).notNullable()
