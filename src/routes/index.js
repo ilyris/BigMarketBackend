@@ -44,36 +44,6 @@ router.post("/profile/:id", authenticateToken, async (req, res, next) => {
     }
 })
 
-
-
-// router.post(`/signup`, async (req, res, next) => {
-//     // Listen to trafic on the /signup path from our Front-End routerlication
-//     try {
-//         // try the code below and exectue if the req comes back good.
-//         let { username, email, password } = req.body // store the request body to the newUser varliable.
-//         console.log(username, email, password)
-//         if (password.length >= 8 && email.length >= 12 && username.length >= 5) {
-//             const hashedPassword = await hashSync(password, 14)
-//             password = hashedPassword
-//             const newUser = {
-//                 email: email,
-//                 password: password,
-//                 username: username
-//             }
-//             await addUser(newUser)
-//             console.log("user has been created")
-//             res.sendStatus(201)
-//         } else {
-//             console.log("User was not created")
-//             res.sendStatus(401)
-//         }
-//     } catch (error) {
-//         // if the code above fails in the try, run the code in the catch block.
-//         next("There was an error " + error)
-//     }
-// })
-
-
 router.post(`/signin`, async (req, res, next) => {
     let { username, password } = req.body
     try {
