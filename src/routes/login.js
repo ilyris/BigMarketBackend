@@ -1,13 +1,15 @@
 const { Router } = require("express");
 const router = Router();
-// const {findUsersBy} = require("../models/users")
-// const {generateToken} = require('../herlper_funcs/generateToken');
+const {addUser, findUsersBy} = require("../models/users");
+const {generateToken} = require('../herlper_funcs/generateToken');
 // const { compareSync } = require("bcryptjs")
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const redirect = "http://localhost:8080/login/callback";
 const axios = require("axios");
 const btoa = require("btoa");
+const env_url = process.env.URL_ENV || "http://localhost:3000/";
+
 let userData;
 
 const getUser = (data, api_res) => {
@@ -18,9 +20,15 @@ const getUser = (data, api_res) => {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     })
-    .then((response) => {
+    .then( async (response) => {
       userData = response.data;
-      api_res.redirect(`http://localhost:3000/profile`);
+      user = await findUsersBy({email: userData.email}).first();
+      if(!user) {
+        addUser({email: userData.email});
+      }
+      const token = generateToken(userData);
+      console.log(token)
+      api_res.redirect(`${env_url}setup?token=${token}`);
     })
     .catch((err) => console.log(err));
 };
